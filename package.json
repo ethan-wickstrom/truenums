@@ -22,12 +22,16 @@
     "test": "bun test"
   },
   "devDependencies": {
-    "@types/jest": "latest",
+    "@biomejs/biome": "1.9.4",
     "@types/bun": "latest",
+    "@types/jest": "latest",
     "typescript": "latest",
     "zod": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  }
+  },
+  "trustedDependencies": [
+    "@biomejs/biome"
+  ]
 }
