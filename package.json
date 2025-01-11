@@ -1,0 +1,33 @@
+{
+  "name": "truenums",
+  "version": "1.0.0",
+  "description": "A robust TypeScript library for creating truly typed enums with runtime validation, serialization, advanced typing, and strong test coverage.",
+  "keywords": [
+    "typescript",
+    "enum",
+    "enums",
+    "truenums",
+    "type-guard",
+    "runtime",
+    "validation",
+    "serialization"
+  ],
+  "author": "Ethan Wickstrom",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "bun run clean && tsc -p tsconfig.json",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/jest": "latest",
+    "@types/bun": "latest",
+    "typescript": "latest",
+    "zod": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

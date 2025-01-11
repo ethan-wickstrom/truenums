@@ -1,0 +1,40 @@
+# <type>(<scope>): <summary>
+#  │       │         │
+#  │       │         └─⫸ Summary in present tense. Not capitalized. No period
+#  │       │
+#  │       └─⫸ Commit Scope: animations|bazel|common|compiler|core|
+#  │           forms|http|router|etc. (can be empty)
+#  │
+#  └─⫸ Commit Type: build|ci|docs|feat|fix|perf|refactor|test
+
+# Add BREAKING CHANGE or DEPRECATED in footer to signal breaking changes
+
+# Type must be one of the following:
+# * build: Changes that affect the build system or dependencies
+# * ci: Changes to CI configuration files and scripts
+# * docs: Documentation only changes
+# * feat: A new feature
+# * fix: A bug fix
+# * perf: A code change that improves performance
+# * refactor: A code change that neither fixes a bug nor adds a feature
+# * test: Adding missing tests or correcting existing tests
+
+# Body: Explain the motivation for the change. Why you are making the change.
+# Wrap at 72 chars. ################################## which is here:  #
+
+
+# Footer Format for Breaking Changes:
+# BREAKING CHANGE: <breaking change summary>
+# <BLANK LINE>
+# <breaking change description + migration instructions>
+# <BLANK LINE>
+# <BLANK LINE>
+# Fixes #<issue number>
+
+# Footer Format for Deprecation:
+# DEPRECATED: <what is deprecated>
+# <BLANK LINE>
+# <deprecation description + recommended update path>
+# <BLANK LINE>
+# <BLANK LINE>
+# Closes #<pr number>

@@ -1,0 +1,5 @@
+logLevel = "debug"
+
+[test]
+coverage = true
+coverageSkipTestFiles = false

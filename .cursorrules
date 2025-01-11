@@ -1,0 +1,183 @@
+# You are a TypeScript expert, and you are writing a library called "Truenums"
+
+You are writing a library called "Truenums". Truenum is a TypeScript library for creating truly typed enums with runtime validation, serialization, advanced typing, strong test coverage, and more.
+It is written in Bun-first Typescript, focusing on performance, static-typing, and runtime-safety.
+
+You are writing the source code for the library.
+
+Here’s an overview of the most common grievances developers have expressed about TypeScript enums, based on discussions and articles from the provided sources:
+
+There's a preference for union types over enums.
+Many developers prefer string literal unions to enums, finding them more flexible and idiomatic in TypeScript. Union types can often be easier to refactor and integrate better with string literal types, which is why some teams avoid enums altogether.
+
+There's extra compiled code overhead.
+When you compile a numeric or string enum, TypeScript generates additional JavaScript objects (e.g., reverse-mapping for numeric enums). This can lead to more verbose or less performant code than simple object literals or union types in some cases.
+
+There's reverse mapping confusion.
+Numeric enums generate “reverse mappings” (e.g., `Enum[Enum.Value] === 'Value'`), which can create confusion or unexpected bugs. Developers sometimes claim it can obfuscate behavior or add complexity, especially if they only needed a set of string constants.
+
+There's lack of extensibility and partial enum patterns.
+Enums in TypeScript are not as flexible as some developers would like:
+- You cannot partially extend an enum or “merge” multiple sets of values easily.
+- There’s no built-in way to do partial usage, which can be problematic for large or evolving sets of constants.  
+
+There's validation/type guard challenges.
+Validating user-supplied data against an enum often involves writing custom type-guard code or finding workarounds. Some developers find union types, or objects with literal properties, more straightforward for such validations because TypeScript’s built-in checks for enums are limited without manually implementing extra logic.
+
+There's string enums vs. numeric enums confusion.
+TypeScript offers both numeric and string enums. Numeric enums sometimes cause confusion due to auto-incremented values and reverse mappings, while string enums don’t allow reverse mappings but can still lead to overhead if a union type is all that’s needed.
+
+There's runtime behavior and duplicated values.
+TypeScript enums are real runtime constructs—unlike union types, which disappear after compilation. This can lead to surprising behavior if you accidentally assign duplicated values or rely on the enum as though it’s purely a compile-time concept.
+
+There's comparisons with other languages.
+Developers coming from languages like Java or C# often expect more powerful enum features (e.g., methods on enum members, pattern matching). TypeScript’s enums can feel limited in comparison, encouraging some to use classes or union types to replicate advanced patterns.
+
+So, the most repeated complaint centers on the fact that string literal unions often solve the same or similar problems without extra runtime code, all while providing easier code transformations and simpler type-level constraints.
+
+You should write the source code for the library in TypeScript, using the Bun compiler.
+
+Below is a style guide for writing “truly statically typed” TypeScript—i.e., TypeScript that compiles directly to idiomatic JavaScript, without introducing language constructs or runtime overhead beyond standard ES semantics. ALWAYS follow this style guide. The goal is to use TS strictly as a static typing layer, avoiding features that produce nontrivial, nonstandard JS output or that deviate from the principle “strip the types, get valid JavaScript.”
+
+## 1. Compiler configuration
+
+1. **Enable strict mode**.  
+   - In `tsconfig.json`, set `"strict": true`, which implies:
+     - `strictNullChecks`
+     - `strictFunctionTypes`
+     - `strictBindCallApply`
+     - `strictPropertyInitialization`
+     - and `noImplicitAny`, among others.  
+   - This ensures you’re catching as many errors as possible at compile-time.
+
+2. **Disallow non-type-safe loopholes**.  
+   - Disable or limit the following in your lint/tsconfig rules:  
+     - `any` (prefer `unknown` if forced)  
+     - Non-null assertion operator `!` (enforce that you always handle possibly-null values)  
+     - Type assertions (`as X`) except in very rare, well-justified edge cases  
+   - The stricter your TS config, the closer you get to “truly static” code with minimal runtime surprises.
+
+3. **Target a modern JS version**.  
+   - In `tsconfig.json`, set `"target": "ES2022"` (or newer), so that your output code uses up-to-date JS features. This reduces the friction between TS and real JS semantics (especially for class fields, top-level await, etc.).
+
+## 2. Language features to avoid
+
+### 2.1 `private` and `protected` (TS keywords)
+
+- **Why avoid**:  
+  - They don’t map cleanly to real JavaScript private fields. Instead, TS `private` and `protected` are purely compile-time checks.  
+  - If you strip them from your code, you’re left with public JS class fields that function differently than true `#private` fields in JavaScript.  
+
+- **Recommended alternative**:  
+  - Use **ECMAScript private fields**: `#foo`. That is real JavaScript, enforced at runtime.  
+  - If you only want compile-time checking without actual runtime privacy, you can also mark the field as “not intended for external usage” in JSDoc or some docstring. But if you truly need private data, go for the ES `#privateField`.
+
+### 2.2 Enums
+
+- **Why avoid**:  
+  - TypeScript `enum`s generate extra runtime code and aren’t natively part of JavaScript. They’re not just type-level constructs; they create an object at runtime with mapped enum values.  
+  - If you remove the `enum` keyword, you’re left with code that doesn’t compile as-is to standard JS.
+
+- **Recommended alternatives**:
+  1. **Literal unions**:  
+     ```ts
+     type Fruit = 'APPLE' | 'BANANA' | 'ORANGE';
+     ```
+     This compiles to zero overhead in JavaScript—just type definitions with no runtime code.  
+  2. **`as const` objects**:  
+     ```ts
+     const FRUITS = {
+       APPLE: 'APPLE',
+       BANANA: 'BANANA',
+       ORANGE: 'ORANGE',
+     } as const;
+     // Type is { APPLE: 'APPLE'; BANANA: 'BANANA'; ORANGE: 'ORANGE' }
+     type Fruit = typeof FRUITS[keyof typeof FRUITS];
+     ```
+     This also results in minimal overhead. You get a small JS object plus a typed union for compile-time checks.
+
+### 2.3 Namespaces
+
+- **Why avoid**:
+  - Namespaces predate ES Modules. They were TS’s solution to code organization before `import` / `export` reached wide usage.  
+  - Pure JS uses ES Modules for encapsulation and scoping. Namespaces don’t map directly to standard JS modules, so you can’t just strip out the TS namespace keywords and be left with working ES modules.
+
+- **Recommended alternative**:
+  - **ES modules**. Use `import` and `export` statements for code organization.  
+  - This keeps your structure aligned with modern JavaScript practices.
+
+### 2.4 Decorators
+
+- **Why avoid**:
+  - TS decorators predate the official ECMAScript Decorators proposal, leading to significant differences in syntax and semantics.  
+  - They’re considered “experimental” in TS, turned on via `experimentalDecorators`. That means they rely on compiler transformations that don’t exist in vanilla JavaScript.  
+  - If you remove the `@decorator` syntax from TS, you can’t replicate that behavior seamlessly in plain JS.
+
+- **Recommended alternative**:
+  - If you genuinely need decorators, wait for the official **Stage 3+ JS Decorators** to land and for TypeScript to align with that final shape.  
+  - In the meantime, factor out cross-cutting concerns using higher-order functions or composition patterns, rather than relying on TS’s decorators.
+
+## 3. Additional guidelines for strong static typing
+
+1. **Prefer type-only constructs**.  
+   - Use interfaces, type aliases, generics, utility types, conditional types, etc.—these are purely compile-time features that vanish after compilation.  
+
+2. **Emphasize structural typing**.  
+   - TypeScript’s structural typing model is powerful. Embrace it by defining shapes (interfaces, type literals) rather than complicated classes, where feasible.  
+
+3. **Minimize coercive casts**.  
+   - Casting (`as something`) bypasses type safety if abused. When you must cast, document why carefully.  
+
+4. **Leverage advanced TS features for safety**:  
+   - **Discriminated unions**: Great for safely handling multiple variants of data.  
+   - **Mapped types**: For building precise types from existing shapes.  
+   - **Template literal types**: For advanced string manipulations.  
+
+5. **Establish consistent naming conventions**:  
+   - Example: suffix types with `Type` or `Interface` only if it clarifies purpose.  
+   - Keep type aliases and interfaces easily distinguishable from values.  
+
+6. **Prefer composition over inheritance**.  
+   - Composition yields simpler type relationships and helps avoid class-based complexities.  
+   - If you do use classes, keep them minimal and rely on standard JS class features (including `#private` if needed).
+
+7. **Avoid `any`** and rarely use `unknown`**.**  
+   - “Truly static” means you want the compiler to check everything possible.  
+   - `unknown` can be acceptable in boundary or library code, but always narrow it quickly to a known type.
+
+## 4. Workflow and best practices
+
+1. **Use ESLint + TypeScript**.  
+   - Configure ESLint with `typescript-eslint` to enforce your style guide.  
+   - Rules can ensure no `namespace`, no `enum`, etc.
+
+2. **Treat your TS definitions as the single source of truth**.  
+   - If you need runtime checks (for user input, for example), write small schema validators (e.g., `zod`, `io-ts`). But always keep the TS definitions as the primary reference for data shapes.
+
+3. **Document your types**.  
+   - Good docstrings or TSDoc can clarify intent, especially if you have constraints or rely on advanced generics.  
+   - Ensures future contributors see how the types are expected to be used.
+
+4. **Adopt a stable code structure**.  
+   - Use consistent file/folder naming to reflect your module boundaries.  
+   - E.g., `./src/utils/...`, `./src/models/...`, `./src/components/...`, each with a dedicated `index.ts` as an entry point.
+
+5. **Test thoroughly**.  
+   - Even with strict types, logic errors can creep in. Use robust unit tests (Jest, Vitest, etc.).  
+   - Type tests: Tools like `tsd` or `expect-type` can verify that your public APIs have correct type signatures.
+
+## 5. Summary of guiding principles
+
+- **Keep TypeScript a zero-cost abstraction**: it should vanish at compile time, leaving you with idiomatic ES code.  
+- **Avoid TS language extensions** that don’t map cleanly to plain JS: `private`/`protected`, `enum`, `namespace`, `@decorator`.  
+- **Favor ES-standards** for privacy, modules, constants, etc. If TS’s approach conflicts with ES, prefer the ES approach.  
+- **Embrace strict type checks** to catch errors at compile time, but avoid runtime or syntactic divergences.  
+
+Following these guidelines yields code that is:  
+- **Highly reliable**: You catch errors early via strict static typing.  
+- **Idiomatic in JavaScript**: The compiled output is straightforward ES code.  
+- **Future-proof**: Adheres to evolving JS standards rather than relying on TS-only experiments.  
+
+In short, “truly statically typed” TypeScript means using TS as a layer on top of standard JavaScript constructs—no special decorators, no artificial privacy keywords, no compiled enums, no outdated namespaces. You end up with simpler mental models, minimal runtime overhead, and maximum clarity, fulfilling TypeScript’s promise: JavaScript with robust static types, *without* overshadowing the underlying language.
+
+Again, ALWAYS follow this style guide.
