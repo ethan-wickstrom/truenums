@@ -1,7 +1,7 @@
 {
   "name": "@truenums/core",
   "version": "1.0.0",
-  "description": "A robust TypeScript library for creating truly typed enums with runtime validation, serialization, advanced typing, and strong test coverage.",
+  "description": "Type-safe, zero-cost TypeScript enums with advanced features like runtime validation, i18n, subsets, and composition. Built for Bun.",
   "keywords": [
     "typescript",
     "enum",
@@ -44,5 +44,8 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "trustedDependencies": ["@biomejs/biome"]
+  "trustedDependencies": ["@biomejs/biome"],
+  "dependencies": {
+    "semantic-release": "^24.2.1"
+  }
 }

@@ -1,6 +1,6 @@
 # Truenums
 
-> *Ultra-Safe, Zero-Cost Enumerations for TypeScript on Bun*
+> *Type-safe, zero-cost TypeScript enums with advanced features like runtime validation, i18n, subsets, and composition. Built for Bun.*
 
 When you’re building modern TypeScript applications, you shouldn’t have to choose between powerful runtime validation and clean “zero-cost” compile-time enums. **Truenums** gives you both: typed enumerations that vanish to plain strings in production code, but provide advanced type safety and optional runtime checks during development. No overhead, no hidden complexities.
 
