@@ -1,20 +1,13 @@
 {
   "compilerOptions": {
-    // Enable latest features
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
-    "jsx": "react-jsx",
     "allowJs": true,
-
-    // Bundler mode
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true,
-
-    // Best practices
+    "noEmit": false,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -29,7 +22,7 @@
     "alwaysStrict": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "declaration": true,
     "useUnknownInCatchVariables": true,
     "isolatedModules": true,
@@ -38,7 +31,12 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitReturns": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "@truenums/core": ["./src/core.ts"]
+    },
+    "types": ["bun-types"]
   },
   "include": ["src", "tests"],
   "exclude": ["dist", "node_modules"]

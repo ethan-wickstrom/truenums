@@ -1,5 +1,5 @@
 {
-  "name": "truenums",
+  "name": "@truenums/core",
   "version": "1.0.0",
   "description": "A robust TypeScript library for creating truly typed enums with runtime validation, serialization, advanced typing, and strong test coverage.",
   "keywords": [
@@ -14,8 +14,20 @@
   ],
   "author": "Ethan Wickstrom",
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/core.js",
+  "module": "./dist/core.js",
+  "types": "./dist/core.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js",
+      "require": "./dist/core.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "clean": "rm -rf dist",
     "build": "bun run clean && tsc -p tsconfig.json",
@@ -26,12 +38,11 @@
     "@types/bun": "latest",
     "@types/jest": "latest",
     "typescript": "latest",
-    "zod": "latest"
+    "zod": "latest",
+    "bun-types": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "trustedDependencies": [
-    "@biomejs/biome"
-  ]
+  "trustedDependencies": ["@biomejs/biome"]
 }
