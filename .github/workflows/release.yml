@@ -35,8 +35,9 @@ jobs:
       - name: Get bun cache directory
         id: bun-cache-dir
         run: |
-          mkdir -p $(bun cache dir)
-          echo "dir=$(bun cache dir)" >> $GITHUB_OUTPUT
+          BUN_CACHE_DIR="$(bun pm cache)"
+          mkdir -p "$BUN_CACHE_DIR"
+          echo "dir=$BUN_CACHE_DIR" >> $GITHUB_OUTPUT
 
       - name: Cache Bun dependencies
         uses: actions/cache@v4
