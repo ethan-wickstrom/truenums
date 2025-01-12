@@ -1,11 +1,10 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["src/index.ts"],
+  "entryPoints": ["src/core.ts"],
   "out": "docs",
   "cleanOutputDir": true,
   "includeVersion": true,
-  "htmlLang": "en",
-  "githubPages": true,
+  "theme": "default",
   "searchInComments": true,
   "searchInDocuments": true,
   "compilerOptions": {
@@ -46,10 +45,7 @@
     "inherited": true,
     "external": false
   },
-  "plugin": ["typedoc-plugin-markdown", "@mxssfd/typedoc-theme"],
-  "customCss": "./docs/custom.css",
-  "customJs": "./docs/custom.js",
-  "highlightLanguages": ["typescript", "bash", "json"],
+  "plugin": ["typedoc-plugin-markdown"],
   "lightHighlightTheme": "github-light",
   "darkHighlightTheme": "github-dark"
 }
