@@ -148,9 +148,9 @@ describe('subsetTruenum()', () => {
     });
     expect(() => subsetTruenum(Parent, ['a', 'b'] as const)).not.toThrow();
     // Testing invalid key - using type assertion to test error case
-    expect(() => subsetTruenum(Parent, ['a', 'invalid' as 'a'] as const)).toThrowError(
-      RE_NOT_MEMBER_OF_PARENT,
-    );
+    expect(() =>
+      subsetTruenum(Parent, ['a', 'invalid' as 'a'] as const),
+    ).toThrowError(RE_NOT_MEMBER_OF_PARENT);
   });
 
   it("merges parent's labels / i18n but respects overrides", () => {
