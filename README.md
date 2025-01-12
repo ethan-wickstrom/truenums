@@ -1,282 +1,153 @@
-# Truenums &nbsp; <br/><sub><sup>*Type-safe, zero-cost TypeScript enums with runtime checks, subsets, i18n, and more.*</sup></sub>
+# Truenums
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=flat-square)](https://github.com/ethan-wickstrom/truenums/actions)
-[![bun](https://img.shields.io/badge/Bun-%3E%3D1.0-blue.svg?style=flat-square)](https://bun.sh)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+**Type-safe, zero-cost TypeScript enums with advanced features like runtime validation, i18n, subsets, and composition. Built for Bun.**
 
-## The Problem
+Truenums provides a way to define and manipulate TypeScript "enums" that are internally just string-literal unions—meaning your production code remains tiny and your compile-time checks remain strong.
 
-Many developers struggle with TypeScript’s built-in enums, citing extra runtime overhead, confusion between numeric vs. string enums, difficulty with partial usage, and limited extensibility. While literal union types avoid some pitfalls, they still leave gaps when it comes to labeling, i18n, or straightforward runtime validation.
+## Why Truenums?
 
-## The Solution
+Let's first discuss the story of TypeScript, its philosophy, and how it's evolved over the years, particularly in the context of enums.
 
-**Truenums** gives you compile-time *string-literal* unions that vanish into plain strings at runtime—**zero overhead**. It also offers optional runtime validation (via [Zod](https://github.com/colinhacks/zod)), i18n, subset extraction, and compositional merges. Perfect for scenarios where you crave enumerations that are:
+TypeScript began as Microsoft's ambitious attempt to bring order to JavaScript's wild west. Its mission was clear: add static typing to JavaScript without breaking its fundamental nature. Early design decisions reflected this balance—including the introduction of enums, a feature beloved in languages like Java and C#.
 
-1. **Safer** than plain string unions (optionally validated at runtime).  
-2. **More flexible** than native TypeScript enums (complete with labeling & translations).  
-3. **Lightweight** in production builds (no extra runtime objects or overhead).  
-4. **Extensible** with subsets, merges, and partial overrides of labels or i18n.
+These enums seemed perfect at first. They offered familiar territory for developers coming from statically-typed languages, complete with numeric auto-incrementing and reverse mappings. But as TypeScript projects grew larger and the community gained experience, cracks began to show.
 
-## Table of Contents
+Developers discovered that TypeScript enums, while convenient, carried hidden costs. Each enum generated additional JavaScript code—reverse mappings and value objects that bloated bundles. Teams working on performance-critical applications started questioning whether this runtime overhead was worth the convenience.
 
-1. [Installation](#installation)
-2. [Quick Example](#quick-example)
-3. [Core API](#core-api)
-   - [createTruenum](#createtruenum)
-   - [subsetTruenum](#subsettruenum)
-   - [composeTruenum](#composetruenum)
-   - [Helper Utilities](#helper-utilities)
-4. [Advanced Usage](#advanced-usage)
-   - [Labels & i18n](#labels--i18n)
-   - [Runtime Validation](#runtime-validation)
-   - [Subsets](#subsets)
-   - [Compositions](#compositions)
-   - [Exhaustive Checking](#exhaustive-checking)
-5. [Contributing](#contributing)
-6. [FAQ](#faq)
-7. [License](#license)
+Then came the rise of string literal unions. Simple, elegant, and true to TypeScript's nature as a type layer over JavaScript. No runtime overhead. No reverse mappings. No confusion. Just pure static typing that disappeared during compilation:
+
+```ts
+// The old way: TypeScript enum
+enum Status {
+  Active = "ACTIVE",
+  Inactive = "INACTIVE"
+}
+// Compiles to complex JS objects with bidirectional mappings
+
+// The new way: String literal union
+type Status = "ACTIVE" | "INACTIVE";
+// Compiles to nothing—pure type information
+```
+
+But string literal unions, while elegant, left gaps. How do you add human-readable labels? How do you handle internationalization? How do you compose and subset these types without losing type safety? The community needed something that combined the best of both worlds.
+
+This is where Truenums enters the story. We designed it to embrace TypeScript's evolution toward zero-cost abstractions while solving real-world challenges:
+
+```ts
+// The Truenums way: Power meets simplicity
+const Status = createTruenum({
+  members: ["ACTIVE", "INACTIVE"] as const,
+  labels: {
+    ACTIVE: "Currently Active",
+    INACTIVE: "Not Active"
+  }
+});
+// Type-safe, minimal runtime code, rich features
+```
+
+Truenums represents a new chapter in TypeScript's enum story. It provides:
+
+- The type safety of literal unions
+- The feature richness of traditional enums
+- The runtime efficiency modern applications demand
+- The developer experience teams deserve
+
+We built Truenums on three core principles:
+
+1. **Zero-cost by default**: Pay only for features you use
+2. **Type-safe always**: Leverage TypeScript's type system to its fullest
+3. **Practical power**: Solve real problems without complexity
+
+Whether you're building a small project or scaling a large application, Truenums offers a modern solution to enumeration that aligns with TypeScript's evolution toward simpler, safer, and more efficient code.
 
 ## Installation
 
-You can install **Truenums** via [Bun](https://bun.sh) or NPM/Yarn. Although optimized for Bun, it works seamlessly in other TypeScript workflows:
-
 ```bash
-# With Bun:
+# Using Bun:
 bun add truenums
 
-# Alternatively:
+# Or using npm:
 npm install truenums
-# or
+
+# Or yarn:
 yarn add truenums
 ```
 
-Truenums targets **TypeScript 5.0+** for robust type inference. Make sure your config (`tsconfig.json`) has `"strict": true` for best results.
+Truenums requires TypeScript **5.0+** and works best under `"strict": true` in your `tsconfig.json`. Although we develop on Bun, the final output is standard JavaScript, so it should work seamlessly in Node, Deno, or other JavaScript runtimes.
 
-## Quick Example
+## Usage Example
 
-Below is a basic demonstration of **Truenums** in action:
+Below is a simplified snippet. See TSDoc comments in the code or the library’s generated docs for a thorough API reference here:
+<https://ethan-wickstrom.github.io/truenums>.
 
 ```ts
-import { createTruenum } from 'truenums';
+import { createTruenum, subsetTruenum, composeTruenum } from 'truenums';
 
-// 1) Define an enumeration
-const Colors = createTruenum({
-  members: ['RED', 'GREEN', 'BLUE'] as const,
+// Step 1: Create a base enumeration
+const Fruit = createTruenum({
+  members: ['APPLE', 'BANANA'] as const,
   labels: {
-    RED: 'Red color',
-    GREEN: 'Green color',
-    BLUE: 'Blue color',
+    APPLE: 'Red Apple',
+    BANANA: 'Yellow Banana',
   },
 });
 
-// 2) Use it at compile time
-type ColorType = typeof Colors.type;   // "RED" | "GREEN" | "BLUE"
+// Step 2: Check membership
+console.log(Fruit.is('APPLE')); // true
+console.log(Fruit.is('ORANGE')); // false
 
-// 3) Check membership at runtime
-console.log(Colors.is('RED'));        // true
-console.log(Colors.is('PURPLE'));     // false
+// Step 3: Get or assert enumerated keys
+Fruit.assert('BANANA'); // passes
+// Fruit.assert('UNKNOWN'); // would throw an Error
 
-// 4) Validate or throw if invalid
-Colors.assert('GREEN');               // passes
-// Colors.assert('MAGENTA');          // throws an Error
+// Step 4: Subset usage
+const Citrus = subsetTruenum(Fruit, ['APPLE'] as const, {
+  labels: { APPLE: 'Mostly an Apple' },
+});
+console.log(Citrus.getLabel('APPLE')); // "Mostly an Apple"
 
-// 5) Get label / do translations
-console.log(Colors.getLabel('RED'));  // "Red color"
+// Step 5: Composing multiple enumerations
+const Veg = createTruenum({
+  members: ['CARROT'] as const,
+});
+const Food = composeTruenum([Fruit, Veg]);
+console.log(Food.keys); // ["APPLE","BANANA","CARROT"]
 ```
 
-**Truenums** produce:
+## Core Concepts
 
-- **No overhead** in compiled JS—just string checks and minimal object lookups.
-- **Full type safety** for union keys (`"RED" | "GREEN" | "BLUE"`).
-- **Optional features**: Zod schema generation, i18n, subsets, composable merges.
+1. **Literal-based “enums”:** They are plain strings at runtime, but at compile time, you get strong checks.  
+2. **Optional runtime checks:** With the integrated Zod schema, invalid data can be gracefully caught.  
+3. **Subsets:** Build smaller enumerations from a parent’s keys, inheriting or overriding labels and translations.  
+4. **Compositions:** Merge multiple enumerations (like combining “Fruits” and “Veggies” into “Food”).  
 
-## Core API
+## Comparing to TypeScript Enums
 
-### createTruenum
+Unlike native enums, Truenums do not generate additional runtime objects or reverse mappings. The library leverages string-literal unions—ensuring minimal overhead and clearer usage patterns. Also, we provide helper methods for:
 
-```ts
-function createTruenum<Key extends string>(
-  config: {
-    members: readonly Key[];
-    name?: string;
-    labels?: Readonly<Record<Key, string>>;
-    i18n?: Readonly<Record<Key, Readonly<Record<string, string>>>>;
-  }
-): Truenum<Key>;
-```
+- Serializing and deserializing  
+- Validating membership  
+- Overriding i18n or label properties  
+- Checking for exhaustive coverage in switch statements  
 
-**Purpose**: Constructs a typed enumeration from an array of string literal members.
-
-**Key points**:
-
-- `members`: required array of unique string literals.  
-- `labels`: optional labels dictionary for user-friendly text.  
-- `i18n`: optional dictionary of dictionaries for multi-locale translations.  
-- Returns an object with:
-  - `keys`: readonly array of `Key`.
-  - `is(input)`: type guard for membership.
-  - `assert(input)`: throws an error if invalid.
-  - `serialize(key)`: returns a string key (throws if invalid).
-  - `deserialize(input)`: returns a typed key (throws if input not in members).
-  - `getLabel(key)`: returns label if available.
-  - `getTranslation(key, lang)`: returns i18n if available.
-  - `zodSchema`: a Zod schema for optional runtime validation.
-
-### subsetTruenum
-
-```ts
-function subsetTruenum<ParentKey extends string, SubsetKey extends ParentKey>(
-  parent: Truenum<ParentKey>,
-  subsetMembers: readonly SubsetKey[],
-  opts?: {
-    name?: string;
-    labels?: Partial<Record<SubsetKey, string>>;
-    i18n?: Partial<Record<SubsetKey, Readonly<Record<string, string>>>>;
-  }
-): Truenum<SubsetKey>;
-```
-
-**Purpose**: Creates a smaller “child” enumeration from a parent’s keys, preserving type safety and optionally overriding labels/i18n.
-
-**Key points**:
-
-- Validates that all `subsetMembers` exist in the parent.
-- Inherits or merges label/i18n fields from the parent, with optional overrides.
-- Perfect for restricting an enum to just the keys you need in certain contexts.
-
-### composeTruenum
-
-```ts
-function composeTruenum<
-  Tuple extends readonly Truenum<string>[],
-  UnionKey extends Tuple[number]['type'],
->(
-  truenums: Tuple,
-  opts?: {
-    name?: string;
-    labels?: Partial<Record<UnionKey, string>>;
-    i18n?: Partial<Record<UnionKey, Readonly<Record<string, string>>>>;
-  }
-): Truenum<UnionKey>;
-```
-
-**Purpose**: Combines multiple distinct truenums into one larger enumeration. Merges their labels/i18n seamlessly. Ensures keys are disjoint—throws if duplicates.
-
-**Key points**:
-
-- Great for “merging” enumerations like `Fruit` + `Vegetable` => `Food`.
-- Each sub-enum must have unique keys or an error is thrown.
-- Optionally override or fill in missing label/i18n properties in `opts`.
-
-### Helper Utilities
-
-- **`assertExhaustive(value, msg?)`**  
-  Asserts that `value` is `never`. Useful to ensure *exhaustive* switch/case logic. If reached, it throws a runtime error.
-
-- **`compareTruenumKeys(a, b)`**  
-  Simple alphabetical comparison (`-1 | 0 | 1`). Handy in sorted arrays or if your code requires stable ordering.
-
-- **`buildZodSchema(truenum)`**  
-  Returns a `z.ZodEnum` built from the Truenum’s keys. Equivalent to `truenum.zodSchema` but can be used if you want a separate reference.
+All without polluting your final JavaScript with complicated enum artifacts.
 
 ## Advanced Usage
 
-### Labels & i18n
+If you need to:
 
-You can localize or label each key with `labels` or the nested `i18n` structure:
+- Label your keys with user-friendly strings  
+- Localize strings across multiple locales  
+- Validate uncertain user input  
+- Extend or compose enumerations dynamically  
 
-```ts
-const Sizes = createTruenum({
-  members: ['SM', 'MD', 'LG'] as const,
-  labels: {
-    SM: 'Small', 
-    MD: 'Medium',
-    LG: 'Large',
-  },
-  i18n: {
-    SM: { en: 'Small', fr: 'Petit' },
-    MD: { en: 'Medium', fr: 'Moyen' },
-    LG: { en: 'Large', fr: 'Grand' },
-  }
-});
-
-console.log(Sizes.getLabel('SM'));          // "Small"
-console.log(Sizes.getTranslation('LG','fr'))// "Grand"
-```
-
-### Runtime Validation
-
-Each Truenum offers a `.zodSchema` property for runtime validation:
-
-```ts
-import { z } from 'zod';
-const Days = createTruenum({
-  members: ['MON','TUE','WED'] as const,
-});
-const daySchema = Days.zodSchema.default('MON');
-console.log(daySchema.parse(undefined)); // "MON"
-console.log(daySchema.parse('WED'));    // "WED"
-daySchema.parse('FRI');                // throws ZodError
-```
-
-This is optional. If you prefer a different validation library, you can do something similar by reading `Days.keys`.
-
-### Subsets
-
-Use `subsetTruenum()` if you only need a partial set of keys:
-
-```ts
-const AllColors = createTruenum({
-  members: ['RED','GREEN','BLUE','YELLOW'] as const
-});
-
-const Primary = subsetTruenum(AllColors, ['RED','BLUE'] as const, {
-  labels: {
-    RED: 'Primary Red' 
-  }
-});
-
-console.log(Primary.keys); // ["RED","BLUE"]
-Primary.assert('GREEN');   // throws
-```
-
-### Compositions
-
-Use `composeTruenum()` to combine enumerations:
-
-```ts
-const Fruits = createTruenum({ members: ['APPLE','BANANA'] as const });
-const Veggies = createTruenum({ members: ['CARROT','PEA'] as const });
-
-const Food = composeTruenum([Fruits, Veggies], {
-  labels: { APPLE: 'Red Apple' },
-});
-console.log(Food.keys); // ["APPLE","BANANA","CARROT","PEA"]
-```
-
-### Exhaustive Checking
-
-`assertExhaustive(x: never)` helps with compile-time verification:
-
-```ts
-function colorToHex(color: 'RED'|'GREEN'|'BLUE') {
-  switch(color) {
-    case 'RED':   return '#FF0000';
-    case 'GREEN': return '#00FF00';
-    case 'BLUE':  return '#0000FF';
-    default:      return assertExhaustive(color);
-  }
-}
-```
-
-If you add `"YELLOW"` to your type but forget to handle it, TypeScript will complain. If you manage to slip it through, the runtime throws an error.
+Truenums covers those scenarios without sacrificing performance or clarity.
 
 ## Contributing
 
-Contributions are welcome, from bug reports to new feature proposals. To get started:
+We welcome bug reports, feature requests, and pull requests. Before contributing:
 
-1. **Clone & install**:
+1. Clone the repo:  
 
    ```bash
    git clone https://github.com/ethan-wickstrom/truenums.git
@@ -284,47 +155,22 @@ Contributions are welcome, from bug reports to new feature proposals. To get sta
    bun install
    ```
 
-2. **Build & test**:
+2. Build and test:  
 
    ```bash
+   bun run lint
    bun run build
    bun test
    ```
 
-   This project uses [Bun’s test runner](https://bun.sh/docs/cli/test). Make sure all tests pass before creating a pull request.
+3. Follow the commit message guidelines in [HOW_TO_WRITE_COMMIT_MESSAGES.md](./HOW_TO_WRITE_COMMIT_MESSAGES.md).
 
-3. **Open a PR**:
-   - Follow the [commit message guidelines](./HOW_TO_WRITE_COMMIT_MESSAGES.md).
-   - Target the **main** branch.
-   - Include relevant tests for your change.
-
-For significant changes, please open an issue first to discuss your proposal. We love hearing your ideas for making Truenums even better!
-
-## FAQ
-
-**1. Does Truenums rely on a custom TS transformer?**  
-No. It’s standard TypeScript. The code is shaped such that in compiled JS, you only have simple `string` checks.  
-
-**2. Can I skip Zod?**  
-Absolutely. That’s optional for folks who want robust runtime checks. You can ignore `.zodSchema` entirely.  
-
-**3. Does it only work in Bun?**  
-Not strictly. Bun is recommended for its fast TS/JS environment, but the compiled output is just JavaScript. It should work in Node or other bundlers too, as long as the TS version is high enough (5.0+).  
-
-**4. Why “zero-cost”**?  
-All type logic is erased at compile time. The runtime object is minimal—just an array of keys and simple lookup methods.  
-
-**5. Is there a performance overhead to i18n or labels?**  
-If you define them, it’s just an extra property. If not, they’re undefined. Access is just a direct object lookup. Very minimal overhead.  
-
-**6. Are subsets & compositions able to handle partial overrides?**  
-Yes! That’s precisely the design. Subsets can override selected labels or translations. Compositions unify multiple truenums, and you can override shared properties in the final step.  
+For major changes, open an issue to discuss your ideas first!
 
 ## License
 
-This project is [MIT licensed](./LICENSE.txt). You’re free to use, modify, and distribute it under the MIT terms. Enjoy crafting safer enumerations in your TypeScript projects!
+This project is distributed under the [MIT License](./LICENSE). Feel free to use, modify, and distribute.
 
-## Tests
+Check out the [test suite](./test/truenums.test.ts) for more real-world usage examples. For deeper details, consult the inline TSDoc in our source code or run your own doc generation to see everything Truenums can do.
 
-**Truenums**: *Truly typed enumerations without the baggage.*  
-Check out [the tests](./test/truenums.test.ts) for real usage examples and see how zero-cost enumerations can power up your codebase!
+Happy enumerating with Truenums!

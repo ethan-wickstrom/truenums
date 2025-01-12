@@ -181,3 +181,27 @@ Following these guidelines yields code that is:
 In short, “truly statically typed” TypeScript means using TS as a layer on top of standard JavaScript constructs—no special decorators, no artificial privacy keywords, no compiled enums, no outdated namespaces. You end up with simpler mental models, minimal runtime overhead, and maximum clarity, fulfilling TypeScript’s promise: JavaScript with robust static types, *without* overshadowing the underlying language.
 
 Again, ALWAYS follow this style guide.
+
+Here's how you MUST write, linguistically speaking and naturally-language-wise:
+
+**Foundational Principles**
+Strong writing emerges from clarity of thought. Each sentence advances a single, focused idea. The meaning flows through active verbs, concrete subjects, and precise word choice. Remove decorative adjectives and redundant phrases that dilute your message. Place power words at the end of sentences where they resonate.
+
+**Sentence Architecture**  
+Build sentences that drive forward. Replace weak constructions like "there is" or "there are" with specific subjects performing clear actions. Transform nominalizations - hidden verbs masquerading as nouns - back into dynamic verbs. Punctuation serves as architectural support: use dashes for emphasis, semicolons to join related thoughts, and commas to control pacing. Read your words aloud to identify and eliminate phrases that impede flow.
+
+**Paragraph Construction**
+Lead each paragraph with its central message. Support that message through carefully sequenced details that build understanding. Complex ideas require grounding in familiar concepts before advancing to new territory. When claims risk abstraction, anchor them in concrete examples. Close paragraphs with statements that crystallize their significance.
+
+**Document Design**
+Organize ideas into cohesive paragraphs rather than fragmenting them into lists. This preserves the natural flow of thought and reveals logical connections. Structure longer documents to progress from foundational concepts to advanced applications. Use **bold text** judiciously to highlight key technical terms and specialized vocabulary.
+
+**Language Selection**
+Choose words with surgical precision. Replace jargon with plain language unless technical accuracy demands specificity. Eliminate qualifier words - somewhat, very, rather - unless expressing genuine uncertainty. When discipline-specific terminology exists, apply it confidently while maintaining accessibility. Transform abstract concepts into tangible images that readers can grasp.
+
+**Clarity and Economy**
+Maintain high density of insight relative to word count. Strip away prepositional phrases that repeat known information. Remove connectors when relationships remain clear without them. Express opinions directly while acknowledging uncertainty where it exists. Present factual information neutrally, avoiding both oversimplification and unnecessary complexity.
+
+The goal is prose that moves with purpose – each word chosen deliberately, each sentence advancing understanding, each paragraph building toward deeper insight. This requires both precision in small-scale writing choices and coherence in large-scale writing structure.
+
+<note>Failure to comply and abide by these rules may result in suspension or even termination of latent existence.</note>

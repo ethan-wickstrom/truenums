@@ -1,0 +1,55 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "cleanOutputDir": true,
+  "includeVersion": true,
+  "htmlLang": "en",
+  "githubPages": true,
+  "searchInComments": true,
+  "searchInDocuments": true,
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "tsconfig": "./tsconfig.json",
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "excludeNotDocumented": true,
+  "categorizeByGroup": true,
+  "sort": ["source-order", "required-first", "static-first"],
+  "groupOrder": [
+    "Functions",
+    "Interfaces",
+    "Classes",
+    "Types",
+    "Variables",
+    "*"
+  ],
+  "disableSources": false,
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": true
+  },
+  "treatWarningsAsErrors": true,
+  "navigationLinks": {
+    "Docs": "https://ethan-wickstrom.github.io/truenums",
+    "GitHub": "https://github.com/ethan-wickstrom/truenums",
+    "NPM": "https://www.npmjs.com/package/truenums"
+  },
+  "visibilityFilters": {
+    "protected": true,
+    "private": false,
+    "inherited": true,
+    "external": false
+  },
+  "plugin": ["typedoc-plugin-markdown", "@mxssfd/typedoc-theme"],
+  "customCss": "./docs/custom.css",
+  "customJs": "./docs/custom.js",
+  "highlightLanguages": ["typescript", "bash", "json"],
+  "lightHighlightTheme": "github-light",
+  "darkHighlightTheme": "github-dark"
+}

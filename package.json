@@ -32,6 +32,8 @@
     "test": "bun test",
     "lint": "bunx biome check --write",
     "semantic-release": "semantic-release",
+    "docs": "typedoc",
+    "docs:watch": "typedoc --watch",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -46,6 +48,8 @@
     "@types/jest": "latest",
     "bun-types": "latest",
     "husky": "^9.1.7",
+    "typedoc": "^0.27.6",
+    "typedoc-plugin-markdown": "^4.4.1",
     "typescript": "latest",
     "zod": "latest"
   },
