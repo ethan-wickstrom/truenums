@@ -1,0 +1,42 @@
+[
+  {
+    "text": "Interfaces",
+    "collapsed": true,
+    "items": [
+      { "text": "TruenumConfig", "link": "/api/interfaces/TruenumConfig.md" },
+      { "text": "Truenum", "link": "/api/interfaces/Truenum.md" }
+    ]
+  },
+  {
+    "text": "Type Aliases",
+    "collapsed": true,
+    "items": [
+      { "text": "SupportedLang", "link": "/api/type-aliases/SupportedLang.md" }
+    ]
+  },
+  {
+    "text": "Variables",
+    "collapsed": true,
+    "items": [
+      { "text": "SUPPORTED_LANGS", "link": "/api/variables/SUPPORTED_LANGS.md" }
+    ]
+  },
+  {
+    "text": "Functions",
+    "collapsed": true,
+    "items": [
+      { "text": "createTruenum", "link": "/api/functions/createTruenum.md" },
+      { "text": "subsetTruenum", "link": "/api/functions/subsetTruenum.md" },
+      { "text": "composeTruenum", "link": "/api/functions/composeTruenum.md" },
+      {
+        "text": "compareTruenumKeys",
+        "link": "/api/functions/compareTruenumKeys.md"
+      },
+      {
+        "text": "assertExhaustive",
+        "link": "/api/functions/assertExhaustive.md"
+      },
+      { "text": "buildZodSchema", "link": "/api/functions/buildZodSchema.md" }
+    ]
+  }
+]

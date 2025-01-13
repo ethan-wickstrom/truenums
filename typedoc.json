@@ -1,51 +1,33 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["src/core.ts"],
-  "out": "docs",
-  "cleanOutputDir": true,
-  "includeVersion": true,
-  "theme": "default",
-  "searchInComments": true,
-  "searchInDocuments": true,
-  "compilerOptions": {
-    "skipLibCheck": true,
-    "strict": true
-  },
-  "tsconfig": "./tsconfig.json",
-  "excludeInternal": true,
+  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "entryPoints": ["./src/core.ts"],
+  "out": "docs/api",
+  "docsRoot": "./docs",
+  "readme": "none",
+  "githubPages": true,
+  "entryFileName": "index",
+  "hidePageHeader": false,
+  "hideBreadcrumbs": true,
   "excludePrivate": true,
   "excludeProtected": false,
   "excludeExternals": true,
-  "excludeNotDocumented": true,
-  "categorizeByGroup": true,
-  "sort": ["source-order", "required-first", "static-first"],
-  "groupOrder": [
-    "Functions",
-    "Interfaces",
-    "Classes",
-    "Types",
-    "Variables",
-    "*"
-  ],
-  "disableSources": false,
+  "excludeNotDocumented": false,
+  "includeVersion": true,
+  "darkHighlightTheme": "dark-plus",
+  "tsconfig": "./tsconfig.json",
+  "theme": "default",
+  "hideGenerator": true,
+  "sort": ["required-first", "source-order"],
   "validation": {
-    "notExported": true,
     "invalidLink": true,
-    "notDocumented": true
+    "notExported": true
   },
   "treatWarningsAsErrors": true,
-  "navigationLinks": {
-    "Docs": "https://ethan-wickstrom.github.io/truenums",
-    "GitHub": "https://github.com/ethan-wickstrom/truenums",
-    "NPM": "https://www.npmjs.com/package/truenums"
-  },
-  "visibilityFilters": {
-    "protected": true,
-    "private": false,
-    "inherited": true,
-    "external": false
-  },
-  "plugin": ["typedoc-plugin-markdown"],
-  "lightHighlightTheme": "github-light",
-  "darkHighlightTheme": "github-dark"
+  "searchInComments": true,
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true,
+    "includeFolders": true
+  }
 }

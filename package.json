@@ -32,8 +32,10 @@
     "test": "bun test",
     "lint": "bunx biome check --write",
     "semantic-release": "semantic-release",
-    "docs": "typedoc",
-    "docs:watch": "typedoc --watch",
+    "docs:prepare": "typedoc",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "bun run docs:prepare && vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -43,14 +45,18 @@
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/github": "^11.0.1",
     "@semantic-release/npm": "^12.0.1",
-    "@semantic-release/release-notes-generator": "^14.0.3",
+    "@semantic-release/release-notes-generator": "^14.0.1",
     "@types/bun": "latest",
     "@types/jest": "latest",
     "bun-types": "latest",
     "husky": "^9.1.7",
     "typedoc": "^0.27.6",
-    "typedoc-plugin-markdown": "^4.4.1",
+    "typedoc-plugin-markdown": "^4.0.0-next.6",
+    "typedoc-plugin-mdn-links": "^4.0.8",
+    "typedoc-plugin-missing-exports": "^2.2.0",
+    "typedoc-vitepress-theme": "^1.1.2",
     "typescript": "latest",
+    "vitepress": "^1.0.0-rc.42",
     "zod": "latest"
   },
   "peerDependencies": {

@@ -18,11 +18,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -47,7 +42,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Generate documentation
-        run: bun run docs
+        run: bun run docs:build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
