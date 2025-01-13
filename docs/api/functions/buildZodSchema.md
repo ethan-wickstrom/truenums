@@ -6,7 +6,7 @@
 
 > **buildZodSchema**\<`Key`\>(`truenum`): `z.ZodEnum`\<\[`Key`, `...Key[]`\]\>
 
-Defined in: [core.ts:1204](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L1204)
+Defined in: [core.ts:1204](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L1204)
 
 ## Type Parameters
 

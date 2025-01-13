@@ -4,7 +4,7 @@
 
 # Interface: TruenumConfig\<Key\>
 
-Defined in: [core.ts:14](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L14)
+Defined in: [core.ts:14](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L14)
 
 ## Since
 
@@ -29,7 +29,7 @@ Constrained string type for all valid enumeration keys.
 
 > `readonly` **members**: readonly `Key`[]
 
-Defined in: [core.ts:38](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L38)
+Defined in: [core.ts:38](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L38)
 
 The array of unique string literals used as valid keys.
 Must not be empty and cannot contain duplicates.
@@ -64,7 +64,7 @@ const config = { members: ['SINGLE'] as const };
 
 > `readonly` `optional` **name**: `string`
 
-Defined in: [core.ts:55](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L55)
+Defined in: [core.ts:55](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L55)
 
 Optional name to identify this Truenum instance.
 
@@ -91,7 +91,7 @@ const config = {
 
 > `readonly` `optional` **labels**: `Readonly`\<`Record`\<`Key`, `string`\>\>
 
-Defined in: [core.ts:72](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L72)
+Defined in: [core.ts:72](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L72)
 
 Optional labels keyed by each member, providing human-readable descriptions.
 
@@ -118,7 +118,7 @@ const config = {
 
 > `readonly` `optional` **i18n**: `Readonly`\<`Record`\<`Key`, `Readonly`\<`Record`\<`string`, `string`\>\>\>\>
 
-Defined in: [core.ts:92](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L92)
+Defined in: [core.ts:92](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L92)
 
 Optional i18n object storing translations for each key in multiple locales.
 

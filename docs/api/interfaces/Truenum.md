@@ -4,7 +4,7 @@
 
 # Interface: Truenum\<Key\>
 
-Defined in: [core.ts:106](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L106)
+Defined in: [core.ts:106](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L106)
 
 ## Since
 
@@ -29,7 +29,7 @@ Constrained string literal type for enumerated keys.
 
 > `readonly` **type**: `Key`
 
-Defined in: [core.ts:115](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L115)
+Defined in: [core.ts:115](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L115)
 
 Placeholder property used for extracting the string-literal type.
 
@@ -47,7 +47,7 @@ Not meant for direct usage. Declared to anchor the union type in TS.
 
 > `readonly` **keys**: readonly `Key`[]
 
-Defined in: [core.ts:129](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L129)
+Defined in: [core.ts:129](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L129)
 
 The immutable array of all valid keys in this Truenum.
 
@@ -71,7 +71,7 @@ console.log(Fruit.keys); // ['APPLE','BANANA']
 
 > `readonly` **values**: `{ readonly [K in string]: K }`
 
-Defined in: [core.ts:143](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L143)
+Defined in: [core.ts:143](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L143)
 
 A value map from each key to itself, providing both runtime and compile-time references.
 
@@ -95,7 +95,7 @@ console.log(Fruit.values.APPLE); // 'APPLE'
 
 > `readonly` **zodSchema**: `ZodEnum`\<\[`Key`, `...Key[]`\]\>
 
-Defined in: [core.ts:279](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L279)
+Defined in: [core.ts:279](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L279)
 
 Provides a Zod schema enumerating all valid keys for optional runtime validation.
 
@@ -120,7 +120,7 @@ Fruit.zodSchema.parse('INVALID'); // throws ZodError
 
 > **is**(`input`): `input is Key`
 
-Defined in: [core.ts:173](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L173)
+Defined in: [core.ts:173](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L173)
 
 Checks if the given input is one of the valid keys.
 
@@ -177,7 +177,7 @@ console.log(Fruit.is(123)); // false
 
 > **assert**(`input`, `errMsg`?): `asserts input is Key`
 
-Defined in: [core.ts:203](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L203)
+Defined in: [core.ts:203](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L203)
 
 Asserts that the provided input is a valid Truenum key, or throws an error.
 
@@ -239,7 +239,7 @@ Fruit.assert(maybeFruit);
 
 > **serialize**(`key`): `string`
 
-Defined in: [core.ts:218](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L218)
+Defined in: [core.ts:218](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L218)
 
 Converts a valid Truenum key to a plain string, throwing on invalid usage.
 
@@ -278,7 +278,7 @@ Fruit.serialize('INVALID'); // throws
 
 > **deserialize**(`input`): `Key`
 
-Defined in: [core.ts:233](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L233)
+Defined in: [core.ts:233](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L233)
 
 Converts an arbitrary string back into a valid Truenum key, or throws.
 
@@ -317,7 +317,7 @@ Fruit.deserialize('UNKNOWN'); // throws
 
 > **getLabel**(`key`): `undefined` \| `string`
 
-Defined in: [core.ts:248](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L248)
+Defined in: [core.ts:248](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L248)
 
 Retrieves the label text for a given key, or undefined if none is set.
 
@@ -356,7 +356,7 @@ Fruit.getLabel('UNKNOWN'); // throws
 
 > **getTranslation**(`key`, `langCode`): `undefined` \| `string`
 
-Defined in: [core.ts:264](https://github.com/ethan-wickstrom/truenums/blob/b5a11edef0163b51f94dc242f445389d81c0496c/src/core.ts#L264)
+Defined in: [core.ts:264](https://github.com/ethan-wickstrom/truenums/blob/555f5131e8b27e1a76143a8cb6719b9ff10450ea/src/core.ts#L264)
 
 Retrieves a localized string for a given key/locale if available.
 
